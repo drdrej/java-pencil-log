@@ -1,12 +1,12 @@
 ## Philosphy
--- less logging code
--- logging shouldn't disturb business-logic
--- code-generation
--- simple logging-statements
+1. less logging code
+2. logging shouldn't disturb business-logic
+3. code-generation
+4. simple logging-statements
 
 ## Current State
--- experimental
--- Version: 0.2.3 / 2005
+		experimental
+		Version: 0.2.3 / 2005
 
 
 ## History
@@ -44,7 +44,7 @@ To compile your program without logging just compile your java-code with javac. 
 
 The above example is then transformed to the following code:
 
-´´´java
+```java
 class MyClass {
 
 	private static final Log LOGGER = LogFactory.getLog( MyClass.class );
@@ -70,7 +70,7 @@ class MyClass {
 		  }
 	}
 }
-´´´
+```
 
 You can see, that the code with pencil-logging-statements is more readable than in the old-school way of logging. 
 Pencil also provides a NullPointerException-precaution mechanism. It also does not allow to call business-logic-methods 
