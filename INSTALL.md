@@ -26,7 +26,7 @@ jars are described in the following list.
 3. [Commons IO](http://jakarta.apache.org/commons/io/) - collection of I/O utilities. (Version 1.0)
 4. [Commons logging](http://jakarta.apache.org/commons/logging/) - a wrapper around a variety of logging API implementations. (Version 1.0)
 5. [Commons cli](http://jakarta.apache.org/commons/cli/) - simple API for working with comamnd line arguments. (Version 1.0)
-6. [Javolution](javolution.org) - class library. I use this library to improve string handling and to read xml config files. (Version 3.3.0)
+6. [Javolution](http://javolution.org) - class library. I use this library to improve string handling and to read xml config files. (Version 3.3.0)
 7. [SimpleLog](https://simple-log.dev.java.net/) - I use this framework to log. (Version 1.7.0)
 
 ## How to install
