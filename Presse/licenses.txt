@@ -1,0 +1,50 @@
+Hier muss ich mir mal Gedanken ueber den Text 
+mit den Licenses Gedanken machen.
+
+Der Entwickler muss wissen welche Licensen hier verwendet werden.
+Kommerziell genug aber nicht zu kommerziell.
+
+Auf eine einfache Weise erklaeren, dass es auch für 
+kommerzielle Projekte gut ist.
+
+
+Kurz-Info:
+============
+
+Some parts of Pencil are GPL and some other Apache licensed.
+See here to understand how pencil is licensed.
+
+
+Lange Info:
+============
+
+Wie ist Pencil lizensiert?
+
+1. Der Enhancer (auch core-part genannt) ist unter GPL lizensiert. D.h. jedes Projekt, dass auf dem Enhancer aufbaut
+muss den Code ebenfalls auf GPL aufbauen. Davon betroffen wären zum Beispiel Erweiterungen des Enhancers oder
+Utilities, die auf dem Enhancer aufbauen.
+
+2. Der durch Pencil generierte Code gehört dem Entwickler der Applikation. 
+
+3. Die Pencil-runtime classes, die benötigt werden, falls die Pencil-Statements nicht übersetzt wurden, eben so der Pencl 
+ANT-Task, werden unter Apache License vertrieben. 
+
+4. Die Test- und Beispiel-Projekte werden ebenfalls unter der Apache-License vertrieben.
+
+5. Bei der Auswahl der Bibliotheken für Pencil achte ich besonders darauf, dass diese unter der passenden Lizenz 
+vertrieben werden.
+
+Conclusion:
+Grob zusammengefasst heisst es, dass Pencil zur Entwicklung eigener Projekte kostelos und entsprechend der Apache License 
+verwendet werden darf. D.h. in kommerziellen Projekten können Log-Statements verwendet werden ohne weitere
+Einschränkungen. (siehe auch die Apache license)
+
+Es sieht ein wenig anders aus, wenn Erweiterungen für Pencil entwickelt werden. Sobald es sich um eine Application handelt, 
+die Pencil-Core Funktionalität aufruft, muss der Entwickler der genannte Erweiterung entsprechend der GPL seinen code frei 
+geben.
+
+Falls Sie mehr Fragen zu der GPL lizenz haben, dann schauen sie doch einfach in der GPL-FAQ nach.
+Apache bietet ebenfalls eine FAQ für die eigene Lizenz an. 
+
+best regards,
+    Andreas Siebert

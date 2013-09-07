@@ -1,0 +1,87 @@
+<project basedir="." name="Test-Ant-Task" default="pencil-it">
+
+	<property name="author" value="Andreas Siebert" />
+
+	<property name="prj.root" value=".." />
+	
+	<property name="original.classes.dir" value="${prj.root}/classes" />
+	
+	<property name="enhanced.classes.dir" value="${prj.root}/enhanced-classes" />
+	
+	<property name="lib.testAddon" value="${prj.root}/lib/test-addon.jar" />
+	<property name="lib.junit" value="${prj.root}/lib/junit.jar" />
+	
+	<property environment="ENV" />
+
+	<path id="pencilCompilerClasspath">
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-ant.jar" />
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-core.jar" />
+	</path>
+
+	<path id="testClasspath">
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-core.jar" />
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-runtime.jar" />
+		<pathelement path="${lib.testAddon}" />
+		<pathelement path="${lib.junit}" />
+		<pathelement path="${ENV.PENCIL_HOME}/lib/commons-logging.jar" />
+		<pathelement path="${ENV.PENCIL_HOME}/lib/antlr.jar" />
+	</path>
+
+	<taskdef name="pencil" classname="com.j2biz.pencil.ant.PencilTask" classpathref="pencilCompilerClasspath" />
+
+	<target name="pencil-it">
+		<delete dir="${original.classes.dir}" />
+		<mkdir dir="${original.classes.dir}" />
+
+		<javac srcdir="${prj.root}/src" compiler="javac1.5" optimize="false" debug="true" destdir="${original.classes.dir}">
+			<classpath refid="testClasspath" />
+		</javac>
+
+		<echo>pencil started.</echo>
+		
+		<!-- kopiere die entsprechenden dateien in das gewünschte verzeichnis -->
+		<copy todir="${enhanced.classes.dir}">
+			<fileset dir="${original.classes.dir}" />
+		</copy>
+
+		<!-- attribute:storedConfig : erlaubt es einen namen für das generierte configXML anzugeben.
+		                              das generierte configXML wird von dem eigentlichen abgeleitet und
+		                              alle parameter werden mit werten ersetzt. 
+		                              Dieses attribute ist interessant, wenn man das generierte xml beibehalten moechte
+		                              
+		                              Name unpassend! umbenennen.
+		-->
+		<pencil config="test-config.xml" storedConfig="test-config.xml" />
+
+		<copy todir="${enhanced.classes.dir}">
+			<fileset dir="${prj.root}/src">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+
+		<echo>pencil is ready.</echo>
+	</target>
+
+	<target name="test">
+		<condition property="start.junit.class" value="junit.swingui.TestRunner">
+			<istrue value="${use.gui}" />
+		</condition>
+
+		<property name="start.junit.class" value="junit.textui.TestRunner" />
+
+		<condition property="noloading.junit.option" value="-noloading">
+			<istrue value="${use.gui}" />
+		</condition>
+		<property name="noloading.junit.option" value="" />
+
+		<java classname="${start.junit.class}" fork="true" dir=".">
+			<arg value="com.j2biz.pencil.test.AllTests" />
+			<arg value="${noloading.junit.option}" />
+			
+			<classpath location="${enhanced.classes.dir}" />
+			<classpath path="${prj.root}/lib/junit.jar" />
+			<classpath refid="testClasspath" />
+		</java>
+	</target>
+
+</project>

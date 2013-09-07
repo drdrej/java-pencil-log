@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.1"?>
+
+<plugin >
+<!--
+
+	<extension
+	      point="org.eclipse.ui.editors">
+	   <editor
+	         name="%javaEditorName"
+	         icon="icons/obj16/java.png"
+	         extensions="jav"
+	         contributorClass="org.eclipse.ui.examples.javaeditor.JavaActionContributor"
+	         class="org.eclipse.ui.examples.javaeditor.JavaEditor"
+	         id="org.eclipse.ui.JavaEditor">
+	   </editor>
+	</extension>
+-->
+
+   <extension 
+         point="org.eclipse.jdt.ui.quickAssistProcessors" >
+	  <quickAssistProcessor
+		   id="com.j2biz.pencil.eclipse.editor.QuickAssistTest"
+		   name="com.j2biz.pencil.eclipse.editor.QuickAssistTest"
+		   class="com.j2biz.pencil.eclipse.editor.QuickAssistTest" >
+	  </quickAssistProcessor> 
+   </extension>
+   
+   <!--
+   <extension
+         point="org.eclipse.jdt.core.codeFormatter">
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.editorActions">
+   </extension>
+   -->
+   
+   <extension id="pencilBuilder" name="Pencil Builder" point="org.eclipse.core.resources.builders"> 
+      <builder hasNature="false" isConfigurable="true" > 
+         <run class="com.j2biz.pencil.eclipse.IncrementalPencilBuilder"> 
+            <parameter name="optimize" value="true"/> 
+            <parameter name="comment" value="Produced by the Cool Builder"/> 
+         </run> 
+      </builder> 
+   </extension> 
+   
+</plugin>

@@ -1,0 +1,14 @@
+[PENCIL-WARNING] can't parse the class.
+	 found wrong instruction before log-call:
+	 at com.j2biz.pencil.test.scenario.CallAVariableInTheMethodCall (id: 8785225).main(CallAVariableInTheMethodCall.java:11)
+
+[PENCIL-WARNING] can't parse the class.
+	 ByteCode is not parseable by pencil. log-methods in pencil supports only one value as parameter. contcatenating values are not allowed.
+ found BYTE-CODE COMMAND: com.j2biz.pencil.asm.tree.simple.VarInsnNode log-method-parameter: com.j2biz.pencil.asm.tree.simple.VarInsnNode@4a63d8; in method-name =main
+	 at com.j2biz.pencil.test.scenario.CallAVariableInTheMethodCall (id: 8785225).main(CallAVariableInTheMethodCall.java:14)
+
+[PENCIL-WARNING] can't parse the class.
+	 found wrong instruction before log-call:
+	 at com.j2biz.pencil.test.scenario.CallAVariableInTheMethodCall (id: 8785225).main(CallAVariableInTheMethodCall.java:16)
+
+Fr 2005/08/19 22:49:28.191|---|main|Enhancer|number of analyzed class-files|92

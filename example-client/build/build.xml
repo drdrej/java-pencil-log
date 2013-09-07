@@ -1,0 +1,42 @@
+<project basedir="." name="Test-Ant-Task" default="pencil-it">
+
+	<property name="author" value="Andreas Siebert" />
+
+	<property name="prj.exampleClient" value=".." />
+	<property name="original.classes.dir" value="${prj.exampleClient}/classes" />
+	<property name="enhanced.classes.dir" value="${prj.exampleClient}/enhanced-classes" />
+	<property environment="ENV" />
+
+	<path id="_cp">
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-ant.jar" />
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-core.jar" />
+	</path>
+
+	<taskdef name="pencil" classname="com.j2biz.pencil.ant.PencilTask" classpathref="_cp" />
+
+	<target name="pencil-it">
+		<delete dir="${prj.exampleClient}/classes" />
+		<mkdir dir="${prj.exampleClient}/classes" />
+		
+		<javac srcdir="${prj.exampleClient}/src" compiler="javac1.5" optimize="false" debug="true" destdir="${original.classes.dir}" >
+			<classpath>
+				<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-runtime.jar" />
+			</classpath>
+		</javac>
+
+		<echo>pencil started.</echo>
+		<copy todir="${enhanced.classes.dir}">
+			<fileset dir="${original.classes.dir}" />
+		</copy>
+		
+		<pencil config="test-config.xml" verbose="true" />
+		
+		<copy todir="${enhanced.classes.dir}">
+			<fileset file="${prj.exampleClient}/src/commons-logging.properties" />
+			<fileset file="${prj.exampleClient}/src/simplelog.properties" />
+		</copy>
+
+		<echo>pencil is ready.</echo>
+	</target>
+
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+author: Andreas Siebert
+
+<!DOCTYPE pencil-config
+  PUBLIC "-//Andreas Siebert at j2biz.com//DTD pencil configuration 0.2//EN"
+  "file://config.dtd" >
+  -->
+	
+<pencil-config basedir="E:\projekte\java\pencil-ws\example-client\build" output-path="../enhanced-classes" >
+    <src-classes >
+      <source path="../enhanced-classes">
+          <package name="com.j2biz" />
+      </source> 
+    </src-classes>
+    
+<!--
+	<classloader>
+			<classpath-entry path="../testAddon/test-addon.jar" type="jar" />
+	</classloader>
+-->	
+</pencil-config>

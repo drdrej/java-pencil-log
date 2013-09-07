@@ -1,0 +1,6 @@
+<project default="jarIt" basedir=".">
+
+  <target name="jarIt">
+     <jar destfile="test-addon.jar" basedir="bin" />
+  </target>
+</project>

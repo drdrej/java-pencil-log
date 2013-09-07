@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Project Home Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<style type="text/css">
+<!--
+.src {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background-color: #DFDFDF;
+	border: 1px dotted #666666;
+        padding-left: 20px;
+        padding-top: 1px;
+        padding-bottom: 5px;
+        padding-right: 20px;
+}
+-->
+</style>
+
+<style type="text/css">
+<!--
+.longDescription {
+	width: 70%;
+}
+-->
+</style>
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<!--
+<img src="images/logo_splash_little.gif" style="float: right; merge: 20px;" />
+-->
+
+<h1>Logging with Pencil and commons-logging. <br>Fast and safe way to log.</h1>
+<h4>What is "Pencil" and how i can eat it?</h4>
+
+"Pencil" is a log-message-compiler for java (keyword: generative programming). 
+It takes bytecode produced by javac (or another java-compiler), transforms it
+and enriches it with real logging expressions. <br>
+<br>
+The main goal of the "Pencil" project is to provide 
+a mechanism to make logging easy, safe and fast. To achieve this result, "Pencil" 
+uses its own expression language developed with the ANTLR parser-generator. But have no fear!
+"Pencil" is not a Language-extension. You don't need a special IDE with a new source-code viewer.
+There's no need to extend the syntax of java to 
+use pencil and your code will look cleaner than it did before.
+
+<br>
+To log some stuff you
+simply use a class from "Pencil"-framework within your java-code. 
+Pencil behaves kind of like a logging plugin to your code.
+<br>
+<br>
+Example:<br>
+<div class="src"><pre>
+<b>class</b> MyClass {
+	<b>private</b> String var1;
+	<b>private</b> MyOtherClass var2;	
+
+	<b>public</b> MyClass() {
+		LOGGER.info("<i>begin with initialization</i>" );
+		doSomething();
+		LOGGER.debug( "<i>some additional vars initialized; var1 =</i>${var1}<i>/
+		        var2.name = </i>${var2.name}");
+	}
+	}
+</pre></div>
+
+To compile your program without logging just compile your java-code with javac. If you want to distribute your app with logging, simply use pencil to
+enrich the bytecode with logging-code of your favorite logging framework. (at this moment only commons-logging is supported)<br>
+<br>
+The above example is then transformed to the following code:<br>
+<div class="src"><pre>
+<b>class</b> MyClass {
+
+	<b>private static final</b> Log LOGGER = LogFactory.getLog( MyClass.class );
+
+	<b>private</b> String var1;
+	<b>private</b> MyOtherClass var2;	
+
+	<b>public</b> MyClass() {
+	      <b>if</b>( LOGGER.isInfoEnabled() ) 
+		      LOGGER.info("<i>begin with initialization</i>" );
+		
+	          doSomething();
+	                         
+	      <b>if</b>( LOGGER.isDebugEnabled() ) {
+	          String tempVar;
+	          if(var2 != null ) 
+	             tempVar = String.valueOf(tempVar);
+	          else  // to give the user information, which part of reference is ill.
+	          	 tempVar = "NULL.name"; 
+	          	 
+		      LOGGER.debug( "<i>some additional vars initialized; var1 =</i>" 
+		           + var1 + "<i>/ var2.name = </i>" + tempVar);
+		  }
+	}
+}
+</pre></div><br><br>
+
+You can see, that the code with pencil-logging-statements is more readable than in the old-school way of logging. 
+Pencil also provides a NullPointerException-precaution mechanism. It also does not allow to call business-logic-methods 
+from within your logging-expressions. The result is, your code is safer than before. No more NullPointerExceptions 
+and no more unintended business logic in the logging expressions. Pencil simply forbids a faulty logging-functionality 
+in your code.<br><br>
+ 
+<h4>Where can i download "Pencil"?</h4>
+
+If you are interesting in pencil, you 
+can <a href="actualRelease/pencilFull.zip"><b>DOWNLOAD THE ACTUAL DISTRIBUTION</b> here</a>.
+<br><br>If you have questions about pencli, please read the FAQ and the How-to within 
+the <a href="https://pencil.dev.java.net/servlets/ProjectDocumentList">"Documents & files"</a>-area 
+or send me an <a href="mailto:nestor_kodila@dev.java.net">email</a>. 
+<br><br>The instalation is 
+described <a href="actualRelease/install.html">here</a>.
+<br><br><br> 
+have fun, Andreas Siebert.
+<br><br><br>
+<!-- SpyLOG f:0211 -->
+<script language="javascript"><!--
+Mu="u6377.32.spylog.com";Md=document;Mnv=navigator;Mp=0;
+Md.cookie="b=b";Mc=0;if(Md.cookie)Mc=1;Mrn=Math.random();
+Mn=(Mnv.appName.substring(0,2)=="Mi")?0:1;Mt=(new Date()).getTimezoneOffset();
+Mz="p="+Mp+"&rn="+Mrn+"&c="+Mc+"&t="+Mt;
+if(self!=top){Mfr=1;}else{Mfr=0;}Msl="1.0";
+//--></script><script language="javascript1.1"><!--
+Mpl="";Msl="1.1";Mj = (Mnv.javaEnabled()?"Y":"N");Mz+='&j='+Mj;
+//--></script><script language="javascript1.2"><!--
+Msl="1.2";Ms=screen;Mpx=(Mn==0)?Ms.colorDepth:Ms.pixelDepth;
+Mz+="&wh="+Ms.width+'x'+Ms.height+"&px="+Mpx;
+//--></script><script language="javascript1.3"><!--
+Msl="1.3";//--></script><script language="javascript"><!--
+My="";My+="<a href='http://"+Mu+"/cnt?cid=637732&f=3&p="+Mp+"&rn="+Mrn+"' target='_blank'>";
+My+="<img src='http://"+Mu+"/cnt?cid=637732&"+Mz+"&sl="+Msl+"&r="+escape(Md.referrer)+"&fr="+Mfr+"&pg="+escape(window.location.href);
+My+="' border=0 width=88 height=31 alt='SpyLOG'>";
+My+="</a>";Md.write(My);//--></script><noscript>
+<a href="http://u6377.32.spylog.com/cnt?cid=637732&f=3&p=0" target="_blank">
+<img src="http://u6377.32.spylog.com/cnt?cid=637732&p=0" alt='SpyLOG' border='0' width=88 height=31 >
+</a></noscript>
+<!-- SpyLOG -->
+
+</body>
+</html>
+

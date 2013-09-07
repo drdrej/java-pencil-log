@@ -1,0 +1,115 @@
+Das nächste Release meines Open-Source Projektes, Pencil,
+läßt auf sich warten. Ich bin an einem Punkt angekommen, an dem ich 
+gerne die Vorgehensweise überdenken würde und vor allem gerne auf
+die Vorschläge der evtl. Benutzer reagieren würde.
+
+In diesem Abschnitt soll geklärt werden, ob Pencil
+den eingeschlagenen Weg beibehält und weiter auf eine
+eigene Expression-Language setzt oder eher die allseits 
+bekannte Java-Syntax in den Log-Statements einsetzt?
+
+Bevor die Frage entschieden werden kann, ist zuerst zu klären, 
+wie weit Pencil eigentlich mit der Entwicklung ist und welche
+Ziele Pencil anstrebt, bzw. welche Idee hinter Pencil steckt.
+
+Die Mission.
+=============================================================
+1.) Das Logging sollte unter keinen Umständen die eigentliche Logik 
+	einer Klasse bzgl. der Korrektheit beeinflussen. Das ist 
+	einer der wichtigsten Leitsätze von Pencil.
+
+2.) Das Logging sollte immer so schnell wie möglich erledigt sein und
+	so gering wie nur möglich das Laufzeitverhalten einer Klasse beeinflussen.
+	Ist es möglich die Performance der Logging-Statements zu steigern ohne den
+	Punkt 1. zu verletzen, da sollte Pencil diese Massnahmen anwenden.
+
+3.) Das Logging sollte für den Benutzer so einfach, wie nur möglich sein.
+    D.h. die Usability spielt eine sehr wichtige Rolle. Der Programmierer, 
+    der sich entschieden hat mit Pencil zu arbeiten, sollte nicht das Gefühl 
+    verspühren, sich dauernd zu quälen.
+    
+Stand der Dinge.
+==============================================
+In der aktuellen Version unterstützt Pencil nur seine eigene Expression-Language, die 
+dem Enwickler die Möglichkeit geben soll minimalistisches Logging zu schreiben.
+Eine Logging-Expression ist ein einfacher String folgender Form:
+    
+    "Hier wird der Inhalt der Variable testVar ausgegeben: ${testVar}"
+    
+Wie das folgende Beispiel zeigt, muss eine Logging-Expression als Parameter einer Pencil-Log-Anweisung
+benutzt werden, damit diese Logging-Expression auch als solche erkannt wird.
+  
+    LOG.debug( "Hier wird der Inhalt der Variable testVar ausgegeben: ${testVar}" );
+    
+Im o.g. Beispiel ist "testVar" der Name einer lokalen Variable, bzw. eines Attributes einer Instanz.
+Selbstverständlich sind auch Aufrufe von Attributen von referenzierten Objekten möglich. Wie zum Beispiel 
+der folgende Ausdruck es beschreibt.
+
+   LOG.debug( "Hier wird der Inhalt des Feldes myField: ${testVar.myField}" );
+   
+Die letzte Anweisung sollte durch Pencil im Bytecode in folgende Anweisungen Übersetzt:
+
+   
+   if( LOGGER.isDebugEnabled() ) {
+       final String value;
+	   if( testVar == null ) {
+		   value = "null.myField";
+	   } else {
+	       value = String.valueOf( testVar.myField );
+	   }
+	   
+       LOGGER.debug( new StringBuffer().append( "Hier wird der Inhalt des Feldes myField: " ).append( value ) );
+   }
+   
+Ich möchte nicht alle bereits implementierten bzw. geplanten Möglichkeiten auflisten. Die o.g.
+Beispiele sollten lediglich die allgemeine Vorgehensweise von Pencil erklären, damit 
+die Entscheidung für oder gegen eine eigene Expression Language geklärt werden kann.
+
+Expression Language vs. Java
+===================================================
+Ursprünglich geplant und im Moment auch der Stand der Dinge ist eine eigene Expression Language.
+Dieser Ansatz soll anschaulich den Programmierer daran erinnern, dass Logging 
+nichts mit dem eigentlichen Programm zu tun hat und dieses in keiner weise beeinflussen soll.
+(Siehe Abschnitt: die Mission)
+Die eindeutige Trennung des Loggings und des eigentlichen Programmcodes
+durch den Einsatz einer eigenen Expression-Language erlaubt auch einen schnellen und einfachen
+Umstieg auf einen weiteren Ansatz (Logging ist lediglich ein Kommentar). 
+Das folgende Beispiel stellt diesen Ansatz anschaulich dar:
+
+   //DEBUG: Hier wird der Inhalt des Feldes myField: ${testVar.myField} ]]
+
+Damit würde das Logging auch anschaulich klar von dem eigentlichen 
+Programmcode getrennt sein. Zusätzlicher Vorteil ergibt sich bei der Benutzung von
+Eclispe. Diese IDE erlaubt für Kommentare vordefinierte Schlüsselwörter, Beispielsweise TODO
+oder in unserem Falle auch DEBUG bzw. TRACE, zu definieren. Ein weiterer Vorteil ergibt sich
+bei der Verwendung zusätzlicher geplater Features, beispielsweise der Zugriff auf private, 
+in Java nicht sichtbare, Felder oder die Zeilennummer. Die aktuell
+verfolgte Idee der eigenen Expression-Language verspricht in diesem Fall kürzere und
+besser lesbare Logging-Ausdrücke. Realisierbar sind diese Features natürlich auch in der
+Java-Syntax. Für den Vergleich beider Ansätze im folgenden zwei Ausdrücke,ein mal in Java und 
+ein Mal in der eigenen Expression-Language:
+
+  LOG.debug( "variable: ${field1} at ${&lineNr}" );
+  
+Der geliche Ausdruck in der möglichen Java-Syntax:
+ 
+  LOG.debug( "variable: "+field1+" at "+LOG.getLineNr());
+  
+Die Behandlung der Felder würde sich ebenfalls unterschieden. Die in Java nicht sichtbaren  
+Felder könnten in Pencil trotzdem ausgegeben werden. (Ob es Sinn macht dem Entwickler diese
+Möglichkeit zu geben oder nicht, ist eine andere Diskussion) Auch hier sollen die beiden Beispiele
+den Unterschied aufzeigen.
+
+  LOG.debug( "variable: ${publicField} and ${&privateField}" );
+  
+oder 
+  LOG.debug( "variable: " + publicField + " and " + LOG.getHiddenField( "privateField" ) );
+  
+An diesem Beispiel erkennt man gut, dass die beiden Typen von Variablen meiner Meinung nach zu unterschiedlich
+behandelt werden. Während alle Variablen, die entsprechend der Definition der Java-Scopes sichtbar sind, 
+auch als variablen im Source-Code angegeben sind, werden die nicht sichtbare Variablen über seltsame Konstrukte
+geholt. Dabei finde ich ist der zweite Ausdruck auf jede Fall lesbarer.
+
+
+
+

@@ -1,0 +1,58 @@
+<project default="test" basedir="../">
+
+	<path id="_dist-cp">
+		<pathelement location="./lib/@pencil.compiletime.jar@" />
+		<pathelement location="./lib/@pencil.runtime.jar@" />
+		<pathelement location="./lib/antlr.jar" />
+		<pathelement location="./lib/asm.jar" />
+		<pathelement location="./lib/asm-attrs.jar" />
+		<pathelement location="./lib/commons-io-1.0.jar" />
+		<pathelement location="./lib/commons-logging.jar" />
+		<pathelement location="./lib/commons-cli-1.0.jar" />
+		<pathelement location="./lib/junit.jar" />
+		<pathelement location="./lib/javolution.jar" />
+		<pathelement location="./examples/classes" />
+	</path>
+
+	<property environment="env" />
+
+	<target name="compile">
+		<echo message="starts test in the directory: ${basedir}">
+		</echo>
+		<mkdir dir="examples/classes" />
+
+		<!-- compiler="modern"  -->
+		<javac srcdir="./examples/src" optimize="false" debug="yes" destdir="./examples/classes" >
+			<classpath refid="_dist-cp" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile" description="this target runs all tests. it works only on the source-directory.">
+
+		<echo>Begin with enhancement.</echo>
+		<java classname="com.j2biz.pencil.Enhancer" dir=".">
+			<arg line="-p com.j2biz.pencil.test.scenario._int -s classes/" />
+		    <classpath refid="_dist-cp" />
+		</java>
+		
+		<condition property="start.junit.class" value="junit.swingui.TestRunner">
+			<istrue value="${use.gui}" />
+		</condition>
+
+		<property name="start.junit.class" value="junit.textui.TestRunner" />
+
+		<condition property="noloading.junit.option" value="-noloading">
+			<istrue value="${use.gui}" />
+		</condition>
+		<property name="noloading.junit.option" value="" />
+
+		<java classname="${start.junit.class}" fork="true" dir=".">
+			<arg value="com.j2biz.pencil.test.AllTests" />
+			<arg value="${noloading.junit.option}" />
+			<classpath location="./examples/src" />
+			<classpath location="./examples/classes" />
+			<classpath refid="_dist-cp" />
+		</java>
+	</target>
+
+</project>

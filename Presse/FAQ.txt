@@ -1,0 +1,36 @@
+1. warum statt pencil nicht aspekte benutzen?
+
+AOP und Pencil sind zwei unterschiedliche Technologien, die meiner meinung nach nichts
+miteinander zu tun haben. AOP ist in erster Linie da das Problem mit den cross-cutting concerns 
+zu lösen. Während pencil lediglich das log-handling vereinfachen soll. pencil versuch den code
+für das logging lesbarer, schneller und sicherer zu machen. während AOP es eher erlaubt logging 
+an eine einzelne Stelle raus zu ziehen und eben an dieser Stelle zu verwalten. AOP und Pencil können 
+aber sicherlich gemeinsam verwendet werden. Denn in den meisten Implementierungen sind Aspekte
+ebenfalls Klassen und können mit Pencil nachträglich manipuliert werden. Die Kombination
+der beiden Ansätze könnte dem Programmierer die Möglichkeit bieten ...
+
+
+2. ist pencil auch in anderen sprachen einsetzbar?
+theorethisch läuft pencil mit allem, was die jvm unterstützt.
+
+3. was ist der unterschied in dem ansatz zwischen log4j und pencil zeilennummer?
+
+alle informationen die pencil in form von class-functions anbietet, werden zur übersetzungszeit
+abgeholt. d.h. das template wird zur übersetzungszeit geparst, der entsprechende code wird zur übersetzungszeit 
+erstellt. d.h. es gibt zur laufzeit keinen overhead.
+
+
+F: wie starte ich die tests? (kopilieren und anschliessend testen)?
+
+F: wie binde ich pencil in ant ein?
+
+F: welche apis werden für pencil benötigt? (runtime, compiletime)
+
+F: wie melde ich richtig einen BUG. 
+A: am besten gleich die classe mitschicken. sowohl vor als auch nach dem
+   enhancement. kopie der fehlermeldung aus der console. am besten alles was
+   pencil ausgibt. (es muss auch eine enfache art des loggings geben, so dass
+   pencil den fehler automatisch notiert und in eine datei schreibt.
+   der benutzer hat dann lediglich die aufgabe die dateien zu versenden.
+   vielleicht noch eine kurze beschreibung zur rekonstruktion des fehlers. 
+   je besser die beschreibung, desto schneller kommt die korrektur.)

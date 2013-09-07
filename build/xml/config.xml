@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+
+<!--
+     starten von pencil mit konfigurationsdatei.
+		 
+		 pencil -conf="config.xml" -basedir="absolute paht/relative path"
+		 
+		 - conf : absoluter pfad.
+		    konfiguration wird von da geladen.
+		    src werden immer bzgl. des basedir geladen.
+				
+		 - basedir : relativer pafad ist bzgl. der applikation selbst zu interpretieren.
+		 
+		 Alle relativen pfade werden bzgl. des verz. in dem pencil gestartet wird interpretiert.
+
+     kein basedir gesetzt, dann wird es auf das verz. gesetzt in dem ausgeführt wird.
+		 
+		 wenn basedir gesetzt, wird es relativ zum ort, wo es ausgeführt wird, gesetzt.
+		 
+		 ===========================================================
+		 
+		 Fuer das handling der Pfade werden folgende Klassen benoetigt:
+		 - Resource (aus dem troja Project.
+		 - Die src-Resources werden dabei vorher in ein temporaeres verzeichnis entpackt.
+		 - Die classpath JARs werden ueber den URLClassLoader verwaltet (erstmal)
+		 
+-->
+<pencil-config basedir="." output-path="" type="" >
+  
+	
+   <source-classes>
+      <!--    path=""                			[required]
+			          type=""  										[optional]
+								package-prefixes="		[optional]
+			-->	 
+			
+      <source-entry 
+			          path="" 
+			          type=""  
+								package-prefixes="com.j2biz.test, com.j2biz.utils" />
+								
+	    <source-entry 
+								path="" 
+								type=""  
+								package-prefixes="..." />
+								
+	 </source-classes> 
+	 
+	 <classloader id="webapp" >
+	      <classpath-entry type="" path="" />
+				
+				<!--
+				Verschachtelte Strukturen.
+				Erlaubt das nachbauen der Strukturen, wie sie in der Applikation vorkommen.
+				Dadurch wird die Umgebung besser simuliert.
+				Wenn alse Dublicates vorkommen, dann weiss der ClassLoader auf jeden Fall, was zuerst kommt.
+				<classloader id="application" >
+				      <classpath-entry type="" path="" />
+				</classloader>
+				-->
+	 </classloader>
+	 
+
+</pencil-config>

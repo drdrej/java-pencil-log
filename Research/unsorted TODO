@@ -1,0 +1,105 @@
+[pencil-einsatzgebiet]
+- Entfernen von Asserts. (kann man auch mit aspekten, warum dann Pencil nehmen?)
+- Sysouts mit formatierung erlauben (Kann man zwar evtl auch mit aspekten, aber immoment nicht so gut)
+- entfernen der Log-Anweisungen für den Produktionsprocess.
+
+
+
+[pencil-usability]
+- Platform für zusätzliche Optionen über javadoc/xdoclet aufbaen
+	d.h. in diesem Bereich Vorarbeit leisten!
+	
+- configuration für Secure-Check Level 1
+
+- Option in den einzelnen Klassen: (bis her gibt es nur den Class-depend Logger)
+      Instance-depend Logger
+
+- Option:
+      unterschiedliche Logger erlauben (im moment ist ja nur commons logging)
+
+- Option:
+      Logger wird über Methode geholt.
+			Evtl. den eigenen Logger rauswerfen. Mal schauen ob man das noch braucht.
+			
+- dynamic configuration for the logger
+
+- JMX-Beans für das LOGGER-Verhalten erlauben. [waehrend der laufzeit im classloader]
+
+
+			
+[pencil-core]
+- Story: LogStack mit Servletbeispiel. Performancetest in einer existierenden Applikation waere auch nicht schlecht!
+
+- Story: Support von LogEntries (die direkt auf Property-Schlüssel abgebildet werden!)
+
+- Story: Support von Tracepoints. (diese Story ist eher auf den späteren Zeitpunt zu verschieben!)
+   Erlauben im Stile eines Debuggers den Process mit zu verfolgen.
+	 Beispiel: ein Request kommt rein.
+	 TracePoint.reset();
+	 TracePoint.log("request mit folgende parameter ...");
+	 ...
+	 nach Einiger Zeit trifft ein Fehler auf.
+	 LOG.error();
+	 -> den kompletten trace an dieser Stelle ausgeben... danach die Log anweisung... vielleicht den trace auch in eine andere Datei ausgeben...
+	 
+	 Vielleicht sind traces auch nur im Web sinnvoll... mal schaune. Ist aber eine Überlegung wert.
+	 Wenn man nicht immer mitschreibt, dann kann man zumindest Zugriffzeiten auf die Fetsplatte einsparen ? 
+	 und hat im Falle eines Fehlers dennoch alle Informationen, die man braucht !??
+	 
+- Klassen-Methoden einbauen ??? also erlauben die klassenmethoden aufzurufen.
+
+- Secure-Check Level 1 für Methoden aufbauen.
+
+- Zugriff über getter ermöglichen (isActive() , getName())
+
+- NullTests einbauen. Falls also ein referenziertes Feld verwendet wird, das zur Laufzeit null ist, wird dieses feld auf NULL 
+  geprüft und nicht, wie bis jetzt eine NullPointerException abgefangen. (optimization)
+	
+- try-catch Block korrekt aufbauen.
+
+- falls mehrere LogMsgs vom gleichen Typ hintereinander kommen, sollten diese zu einer IF-Abfrage zusammengefasts werden.
+
+- Löschen der ursprünglichen MSGs, die nicht bearbeitet werden, aus der Klasse.
+
+- lokale Variable für den ersten Check isXXXEnabled() vormerken.
+  Beschreibung:
+	         boolean isD = LOGGER.isDebugEnabled() ;
+					 
+					 if(isD){
+					 ...
+					 
+- static-variable für isXXXEnabled() implementieren und somit schnelleren Code erzeugen.
+  das soll natürlich nur  dann passieren, wenn der Entwickler das möchte!
+	
+- Option: aktivierung der static-variablen (siehe vorheriges Task)
+
+- Option: without.access-flags = true (normalerweise werden Java-Scopes unterstützt. allerdings ist manchmal der Verzicht auf die Einhaltung der access-flags nötig)
+
+
+	
+- Option: 
+     compiler.secure-classes = Class, Class2
+		 compiler.secure-methods = Class.Method, ..., Class2.Method
+		 Diese Methoden werden auf jeden Fall übernommen!!! Also keine warnings!
+		 
+- Option: compiler.remove.log = true
+     entfernt die LogMsgs aus den Klassen...
+	
+- Zusätzliche Referenzmöglichkeiten:
+      Methoden-Parameter
+			
+- Zusätzliche Referenzmöglichkeiten:
+      aktueller methode-name
+			
+- Zusätzliche Referenzmöglichkeiten:
+      aktuelle Klasse
+
+[pencil-systems]
+- jikes
+- eclipse
+- javac
+- kaffee
+
+[optimization]
+- registerClass() Methode im ClassManager anbieten!
+

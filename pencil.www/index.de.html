@@ -1,0 +1,171 @@
+<style type="text/css">
+<!--
+.src {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background-color: #DFDFDF;
+	border: 1px dotted #666666;
+        padding-left: 20px;
+        padding-top: 1px;
+        padding-bottom: 5px;
+        padding-right: 20px;
+}
+-->
+</style>
+
+<style type="text/css">
+<!--
+.longDescription {
+	width: 70%;
+}
+-->
+</style>
+
+<div class="longDescription" >
+<h3>Logging mit Pencil und commons-logging. Der sicherere und einfachere Weg.</h3>
+<br><i>
+Logging ist ein Mechanismums, der in erster Linie 
+Informationen über den Zustand der Applikation gibt, damit die Applikation in 
+gefährlichen Situationen entsprechend reagieren kann. Logging gibt dem Entwickler 
+die Möglichkeit, auch nach der Auslieferung des Programms dessen Verhalten zu 
+beobachten und im Falle eines Fehlers zu reagieren. Im Idealfall können die geloggten 
+Informationen helfen den konsistenten Zustand der evtl. beschädigten Dokumente wieder 
+herzustellen. Unangenehm wird es, wenn das Logging selbst einen Fehler verursacht. 
+Unachtsame Benutzung des Loggers und nicht-einhalten von bestimmten Programmierrichtlinien 
+(if-isDebugEnabled-Abfrage vor jeder Logging-Anweisung) können das Programm 
+außerdem deutlich verlangsamen. Pencil ist ein 
+Werkzeug, dass Logging einfacher, performanter und robuster macht.</i>
+
+
+<h4>Wofür benötige ich Pencil?</h4>
+<br>
+Pencil ist eine Spracherweiterung von Java und somit für alle Entwickler interessant, die in Java programmieren. Grob zusammengefasst verfolgt Pencil folgende Ziele:
+<ol>
+<li><b>Logging darf nie eine Applikation zum Absturz bringen.</b><br><br></li>
+
+<li><b>Logging darf nie den Zustand einer Applikation ändern.</b> Mit dem Zustand einer Applikation sind vor allem die Objekte gemeint, die das eigentliche Verhalten einer Applikation darstellen. StringBuffer, die in den Objekten als Hilfs-Felder für den Logger verwendet werden, bilden nicht den Zustand der Applikation. Eine Zustandsveränderung durch den Logger kann hervorgerufen werden, wenn beispielsweise in einem Log-statement zustandsverändernde Methoden aufgerufen werden. Zum besseren Verständnis schauen wir uns folgendes Beispiel an: 
+<br><br>
+<div class="src"><pre>
+	<b>for</b>( <b>final</b> Iterator i = myObjects.iterator(); i.hasNext(); ) {
+		Object value = i.next();
+		doSomethingWithValue(value);
+		log.debug( "<i>i've done something with value: </i>" + i.next() );
+	}
+</pre></div>
+<br>
+<br>
+	In diesem Beispiel wird versehentlich das nächste Objekt aus dem Iterator geholt und somit 	ein Fehler produziert. Natürlich ist es ein sehr einfaches Beispiel und ein aufmerksamer 	Programmierer macht diesen Fehler nicht. Dieses Beispiel soll erklären wann Logging den 	Zustand einer Applikation verändern kann. Ein anderes Beispiel ist weiter unten zu finden.<br><br>
+</li>
+
+<li><b>Logging muss einfach zu lesen sein.</b> Ich finde die Java-Syntax für diesen Zweck nicht ausreichend. Deshalb hat Pencil eine eigene Expression-Language. Die sehr einfach aufgebaut ist und sich an dem für viele Programmierer bekannten Syntax orientiert. Damit es klar ist, werde ich weiter unten ein kleines Beispiel vorführen.<br><br></li>
+
+<li><b>Logging muss schnell sein und nur einen geringen Einfluss auf die Performanz einer Applikation ausüben.</b> Hidden-object-initialization ist ein ernst zu nehmendes Problem. In der LOG4J FAQ ist dazu ein nettes Beispiel zu finden. (siehe „2.3 What is the fastest way of (not) logging?“). Die Hauptaussage ist folgende: Die Entwickler sollten if-Anweisungen rund um das Logstatement verwenden, damit die Applikation performant bleibt. Allerdings ist diese Schreibweise nervig. Log4J bietet für diesen Fall eine Methode an, die eine parametrisierte Nachricht als ersten Parameter und alle in der Nachricht verwendeten Werte als folgenden Parameter bekommt. Ich finde diesen Weg ebenfalls hässlich. Ein in der String-Kette verwendetes Objekt muss dort stehen, wo es auch verwendet wird. (diese Bemerkung gehört ebenfalls zur Kategorie Lesbarkeit) Außerdem parst Pencil seine LOG-Expressions zur Übersetzungszeit (Compiletime) und sollte somit an dieser Stelle ebenfalls einen Performanzvorteil mitbringen.<br><br></li>
+</ol>
+
+<h4>Nicht schon wieder ein neuer Logger.</h4>
+
+Pencil ist kein Logger. Es ist eine Spracherweiterung, die es erlaubt ihren Lieblingslogger, allerdings in einer einfacheren Weise zu benutzen. Leider habe ich im Moment nur die Unterstützung von commons-logging eingebaut. In den kommenden Versionen werden weitere Loggere unterstützt. D.h. Auch der Support für LOG4J sowie den Java-Logger sollte natürlich implementiert werden.
+
+<h4>Och nö, nicht schon wieder ein precompiler.</h4>
+
+Pencil ist eine softe Spracherweiterung von Java.  Mit soft meine ich, dass es den Sprachumfang von Java vergrössert. Allerdings funktioniert die Applikation auch selbst dann, wenn die Pencil-Statements nicht übersetzt wurden. Wenn die Pencil-Statements nicht übersetzt werden, wird auch nichts geloggt, allerdings läuft die Applikation auch ohne. Erst der Pencil-Enhancer erweitert den Bytecode der Java-Klassen um den entsprechenden Logging-Code.  Der Entwickler arbeitet also mit den gewohnten Tools, mit seiner Lieblings-IDE (Eclipse, Netbeans, IntelliJ), seinem Lieblings-Logger (Log4J, commons-logging,simple-log, java-logger) und seinem Lieblings-Compiler (eclipse-jdt, javac, jikes). Das einzige was sich in seiner Arbeitsweise ändert, ist der zusätzliche Aufruf des Pencil-Enhancers. Pencil verfügt in der aktuellen Version über einen Ant-Task und eine sehr einfach zu schreibende Konfiguration. Somit kann man Pencil auf eine einfache Weise in den Build-Process einbinden.
+
+<h4>Wow, das klingt ja gigantisch! Stimmt das auch?</h4>
+
+Vieles ist erst in Planung. Das Projekt ist sehr jung und es ist noch viel Arbeit zu leisten. Was also ganz gewiss in der jetzigen Version unterstütz wird kann man in der Supported-Tools-Liste der jeweiligen Distribution nachlesen. Einfach in die Documents & Files -Area wechseln und in dem Ordner der gewünschten Version nach dem o.g.  Document (Supported Tools) ausschau halten.
+<br>
+<br>
+<h4>Und wo finde ich die Distribution?</h4>
+Wenn Sie sich für Pencil interessieren, könnten Sie hier die aktuelle Version herunterladen.
+<br><br>
+<a href="actualRelease/pencilFull.zip">DOWNLOAD FULL PENCIL DISTRIBUTION</a><br>
+<br>
+All benötigte Informationen sind <a href="https://pencil.dev.java.net/servlets/ProjectDocumentList">hier</a> zu finden 
+
+<h4>Ehm, ich weiss immer noch nicht, was Pencil macht.</h4>
+
+Zum Abschluss noch ein kleines Beispiel. Denn ein paar Zeilen Code, sagen mehr als 1000 Worte.
+ 
+gewönlicher Java-Code:
+<br><br>
+<div class="src"><pre>
+	<b>class</b> MyClass {
+
+		<b>private static final</b> Log LOGGER = LogFactory.getLog( MyClass.class );
+
+		<b>private</b> String var1;
+		<b>private</b> MyOtherClass var2;	
+
+		<b>public</b> MyClass() {
+              <b>if</b>( LOGGER.isInfoEnabled() ) 
+			      LOGGER.info("<i>begin with initialization</i>" );
+			
+                  doSomething();
+                                 
+		      <b>if</b>( LOGGER.isDebugEnabled() ) 
+			      LOGGER.debug( "<i>some additional vars initialized; var1 =</i>" + var1 + "<i>/ var2.name = </i>" + var2.name);
+
+		}
+	}
+</pre></div>
+<br>
+<br>
+pencil Java-Code:
+<div class="src"><pre>
+	<b>class</b> MyClass {
+		<b>private</b> String var1;
+		<b>private</b> MyOtherClass var2;		
+
+		<b>public</b> MyClass() {
+		       LOGGER.info("<i>begin with initialization</i>" );
+			
+               doSomething();
+
+		       LOGGER.debug( "<i>some additional vars initialized; var1 =${var1}/ var2.name = ${var2.name}</i>");
+
+		}
+	}
+</pre></div>
+<br>
+In dem o.g. Beispiel fällt uns auf, dass ${var2.name} evtl. eine <b>NullPointerException</b> hervorrufen kann. Der Pencil-enhancer kümmert sich um diese Situation, in dem er einen if-not-null Block hinzufügt. Damit ist es garantiert, dass dem Entwickler der Applikation derartige Fehler nicht unterlaufen. Das von Pencil erzeugte
+Ergebnis würde also wie folgt aussehen:<br>
+<div class="src"><pre>
+	<b>class</b> MyClass {
+
+		<b>private static final</b> Log LOGGER = LogFactory.getLog( MyClass.class );
+
+		<b>private</b> String var1;
+		<b>private</b> MyOtherClass var2;	
+
+		<b>public</b> MyClass() {
+              <b>if</b>( LOGGER.isInfoEnabled() ) 
+			      LOGGER.info("<i>begin with initialization</i>" );
+			
+                  doSomething();
+                                 
+		      <b>if</b>( LOGGER.isDebugEnabled() ) {
+		          String tempVar;
+		          if(var2 != null ) 
+		             tempVar = String.valueOf(tempVar);
+		          else 
+		          	 tempVar = "NULL.name"; // to give the user information, which part of reference is ill.
+		          	 
+			      LOGGER.debug( "<i>some additional vars initialized; var1 =</i>" + var1 + "<i>/ var2.name = </i>" + tempVar);
+			  }
+		}
+	}
+</pre></div><br><br>
+
+
+<h4>Hmm. Und was jetzt ?</h4>
+
+Wenn Sie weitere Fragen haben, bzw. genauer wissen möchten 
+wie Pencil funktioniert, dann schauen Sie doch in die How-To rein. 
+Das ist der erste Anlaufpunkt. Die FAQ beantwortet ebenfalls einige Fragen. 
+Beide sind im <a href="https://pencil.dev.java.net/servlets/ProjectDocumentList?folderID=2364&expandFolder=2364&folderID=3437">doc</a>-Ordner 
+zu finden. Wenn Sie dann immer noch Fragen haben, dann schreiben Sie doch entweder ins Forum oder schicken Sie einfach eine Mail an mich. 
+Über Bemerkungen und Verbesserungsvorschläge sowie ein einfaches Dankeschön freue ich mich immer.
+<br><br><br>
+Viel spass, <i>Andreas Siebert</i>
+       
+</div>

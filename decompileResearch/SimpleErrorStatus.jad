@@ -1,0 +1,99 @@
+// Decompiled by DJ v3.6.6.79 Copyright 2004 Atanas Neshkov  Date: 14.08.2005 13:18:05
+// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
+// Decompiler options: packimports(3) annotate lnc 
+
+package com.j2biz.info;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+// Referenced classes of package com.j2biz.info:
+//            ErrorStatus
+
+public class SimpleErrorStatus
+    implements ErrorStatus
+{
+
+    public SimpleErrorStatus(String s, int i, String as[])
+    {
+    //    0    0:aload_0         
+    //    1    1:invokespecial   #20  <Method void Object()>
+        if(s == null)
+    //*   2    4:aload_1         
+    //*   3    5:ifnonnull       18
+            throw new NullPointerException("parameter:msgKey");
+    //    4    8:new             #22  <Class NullPointerException>
+    //    5   11:dup             
+    //    6   12:ldc1            #24  <String "parameter:msgKey">
+    //    7   14:invokespecial   #27  <Method void NullPointerException(String)>
+    //    8   17:athrow          
+        msgKey = s;
+    //    9   18:aload_0         
+    //   10   19:aload_1         
+    //   11   20:putfield        #29  <Field String msgKey>
+        if(as == null)
+    //*  12   23:aload_3         
+    //*  13   24:ifnonnull       37
+        {
+            throw new NullPointerException("parameter:msgValues");
+    //   14   27:new             #22  <Class NullPointerException>
+    //   15   30:dup             
+    //   16   31:ldc1            #31  <String "parameter:msgValues">
+    //   17   33:invokespecial   #27  <Method void NullPointerException(String)>
+    //   18   36:athrow          
+        } else
+        {
+            msgValues = as;
+    //   19   37:aload_0         
+    //   20   38:aload_3         
+    //   21   39:putfield        #33  <Field String[] msgValues>
+            type = i;
+    //   22   42:aload_0         
+    //   23   43:iload_2         
+    //   24   44:putfield        #35  <Field int type>
+            return;
+    //   25   47:return          
+        }
+    }
+
+    public SimpleErrorStatus(String s, int i)
+    {
+        this(s, i, new String[0]);
+    //    0    0:aload_0         
+    //    1    1:aload_1         
+    //    2    2:iload_2         
+    //    3    3:iconst_0        
+    //    4    4:anewarray       String[]
+    //    5    7:invokespecial   #40  <Method void SimpleErrorStatus(String, int, String[])>
+    //    6   10:return          
+    }
+
+    public String getLocalizedMessage()
+    {
+        return msgKey;
+    //    0    0:aload_0         
+    //    1    1:getfield        #29  <Field String msgKey>
+    //    2    4:areturn         
+    }
+
+    public int getType()
+    {
+        return type;
+    //    0    0:aload_0         
+    //    1    1:getfield        #35  <Field int type>
+    //    2    4:ireturn         
+    }
+
+    private final String msgKey;
+    private final int type;
+    private final String msgValues[];
+    private static final Log $COM_J2BIZ_LOG = LogFactory.getLog("com/j2biz/info/SimpleErrorStatus"); /* synthetic field */
+
+    static 
+    {
+    //    0    0:ldc1            #46  <String "com/j2biz/info/SimpleErrorStatus">
+    //    1    2:invokestatic    #52  <Method Log LogFactory.getLog(String)>
+    //    2    5:putstatic       #54  <Field Log $COM_J2BIZ_LOG>
+    //*   3    8:return          
+    }
+}

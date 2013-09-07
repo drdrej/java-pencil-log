@@ -1,0 +1,36 @@
+<project basedir="." name="Test-Ant-Task" default="pencil-it">
+
+	<property name="author" value="Andreas Siebert" />
+	
+	<property name="original.classes.dir" value="../com.j2biz.pencil/classes" />
+    
+	<property name="enhanced.classes.dir" value="enhanced-classes" />
+	
+	<property name="prj.core" value="../com.j2biz.pencil" />
+	
+	<path id="_cp">
+		<pathelement location="./classes" />
+		<pathelement path="${prj.core}/classes" />
+		<pathelement location="${prj.core}/lib/antlr.jar" />
+		<pathelement location="${prj.core}/lib/asm.jar" />
+		<pathelement location="${prj.core}/lib/asm-attrs.jar" />
+		<pathelement location="${prj.core}/lib/commons-io-1.0.jar" />
+		<pathelement location="${prj.core}/lib/commons-logging.jar" />
+		<pathelement location="${prj.core}/lib/commons-cli-1.0.jar" />
+		<pathelement location="${prj.core}/lib/junit.jar" />
+		<pathelement location="${prj.core}/lib/javolution.jar" />
+	</path> 
+	
+	<taskdef name="pencil" classname="com.j2biz.pencil.ant.PencilTask" classpathref="_cp" />
+	
+	<target name="pencil-it">
+	  <echo>pencil started.</echo>
+	  <copy todir="${enhanced.classes.dir}" >
+	     <fileset dir="${original.classes.dir}"></fileset>
+	  </copy>
+	  <pencil config="test-config.xml"  />
+	  
+	  <echo>pencil is ready.</echo>
+	</target>
+
+</project>

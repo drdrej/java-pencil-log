@@ -1,0 +1,172 @@
+<project default="help" basedir="../../">
+	<!--
+      Builds a distribution from the source.
+      
+      This build-file is only for the pencil-developer. It should helps to manage the 
+      building-process of distributions.
+    -->
+	<buildnumber file="build/build.nr" />
+
+	<property name="author" value="Andreas Siebert" />
+	<property file="./build/build.properties" />
+
+	<!-- PROJECT-dependencies ::: -->
+	<property name="prj.lib" value="lib" />
+	<property name="prj.core" value="core" />
+	<property name="prj.runtime" value="runtime" />
+	<property name="prj.test" value="test" />
+	<property name="prj.testAddon" value="testAddon" />
+	<property name="prj.build" value="build" />
+	<property name="prj.ant" value="ant" />
+	<property name="prj.exampleClient" value="example-client" />
+
+	<!-- additional values ::: -->
+	<property name="out.runtime.jar" value="${prj.build}/dist/pencil-runtime.jar" />
+	<property name="out.core.jar" value="${prj.build}/dist/pencil-core.jar" />
+	<property name="out.ant.jar" value="${prj.build}/dist/pencil-ant.jar" />
+	
+	<!-- generated classes ::: -->
+	<property name="original.classes.dir" value="${prj.build}/dist/core/classes" />
+	<property name="enhanced.classes.dir" value="${prj.build}/dist/core/enhanced-classes" />
+	
+	<!-- additional pencil properties to enrich pencil with logging ::: -->
+	<property environment="ENV" />
+
+	<path id="pencilCompilerClasspath">
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-ant.jar" />
+		<pathelement path="${ENV.PENCIL_HOME}/lib/pencil-core.jar" />
+	</path>
+			
+	<taskdef name="pencil" classname="com.j2biz.pencil.ant.PencilTask" classpathref="pencilCompilerClasspath" />
+
+	
+	
+
+	<path id="coreClasspath">
+		<pathelement path="${prj.lib}/antlr.jar" />
+		<pathelement path="${prj.lib}/asm.jar" />
+		<pathelement path="${prj.lib}/asm-attrs.jar" />
+		<pathelement path="${prj.lib}/commons-io-1.0.jar" />
+		<pathelement path="${prj.lib}/commons-logging.jar" />
+		<pathelement path="${prj.lib}/commons-cli-1.0.jar" />
+		
+		<!-- actual version: 1.7 -->
+		<pathelement path="${prj.lib}/simple-log.jar" />
+		
+		<!-- actual used version is 3.3.x ??? -->
+		<pathelement path="${prj.lib}/javolution.jar" />
+	</path>
+
+	<path id="antClasspath">
+		<pathelement path="${prj.build}/dist/core/classes/" />
+		<pathelement path="${prj.lib}/commons-cli-1.0.jar" />
+	</path>
+
+	<target name="help">
+		<echo>implements help.</echo>
+	</target>
+
+	<target name="distribute" depends="prepareDistribution, distributeRuntime, distributeCore, distributeAnt, distributeTests, distributeExampleClient, distributeFull" />
+
+	<target name="distributeWithLogging" 
+		description="this target needs an installed and well working pencil."
+		depends="prepareDistribution, distributeRuntime, distributeCoreWithLogging, distributeAnt, distributeTests, distributeExampleClient, distributeFull" />
+
+	<target name="prepareDistribution">
+		<delete dir="${prj.build}/dist" quiet="true" />
+
+		<!-- create directory structure :: -->
+		<mkdir dir="${prj.build}/dist" />
+		<mkdir dir="${prj.build}/dist/bin" />
+		<mkdir dir="${original.classes.dir}" />
+		<mkdir dir="${enhanced.classes.dir}" />
+		<mkdir dir="${prj.build}/dist/runtime/classes" />
+		<mkdir dir="${prj.build}/dist/ant/classes" />
+	</target>
+
+	<target name="distributeRuntime">
+		<javac srcdir="${prj.runtime}/src" compiler="javac1.5" optimize="false" debug="true" destdir="${prj.build}/dist/runtime/classes" />
+
+		<jar basedir="${prj.build}/dist/runtime/classes" destfile="${out.runtime.jar}" manifest="${prj.build}/build/RUNTIME-MANIFEST.MF" />
+	</target>
+
+	<target name="compileCore">
+		<javac srcdir="${prj.core}/src" compiler="javac1.5" optimize="true" debug="false" destdir="${original.classes.dir}">
+			<classpath refid="coreClasspath" />
+		</javac>
+	</target>
+	
+	<target name="distributeCore" depends="compileCore">
+		<jar basedir="${original.classes.dir}" destfile="${out.core.jar}" manifest="${prj.build}/build/COMPILETIME-MANIFEST.MF" >
+			<fileset dir="${prj.core}/src" includes="simplelog.properties" />
+		</jar>
+	</target>
+	
+	<target name="enrichCoreWithLogging" depends="compileCore" >
+		<echo>copy original compiled files to directory with enhanced class files.</echo>
+		<echo>directory with enhanced classes: ${enhanced.classes.dir}</echo>
+		<echo>directory with original unmodified classes: ${original.classes.dir}</echo>
+		
+		<copy todir="${enhanced.classes.dir}">
+			<fileset dir="${original.classes.dir}" />
+		</copy>
+		
+		<echo>pencilate classes. the result is placed in the directory: ${enhanced.classes.dir}</echo>
+		<pencil config="./build/build/pencil-config.xml" verbose="true" />
+    </target>
+
+	<target name="distributeCoreWithLogging" depends="enrichCoreWithLogging">
+		<jar basedir="${enhanced.classes.dir}" destfile="${out.core.jar}" manifest="${prj.build}/build/COMPILETIME-MANIFEST.MF" />
+	</target>
+			
+	<target name="distributeAnt">
+		<javac srcdir="${prj.ant}/src" compiler="javac1.5" optimize="true" debug="false" destdir="${prj.build}/dist/ant/classes">
+			<classpath refid="antClasspath" />
+		</javac>
+
+		<jar basedir="${prj.build}/dist/ant/classes" destfile="${out.ant.jar}" />
+	</target>
+
+	<target name="distributeTests">
+		
+	</target>
+
+	<target name="distributeExampleClient">
+
+	</target>
+
+
+	<target name="distributeFull">
+		<zip destfile="${prj.build}/dist/pencilFull.zip" compress="true" update="false">
+			<zipfileset dir="${prj.lib}" prefix="lib">
+				<exclude name="**/junit.jar" />
+			</zipfileset>
+
+			<zipfileset file="${out.core.jar}" prefix="lib" />
+			
+			<zipfileset file="${out.runtime.jar}" prefix="lib" />
+			
+			<zipfileset file="${out.ant.jar}" prefix="lib" />
+			
+			<zipfileset file="${prj.build}/exe/pencil.bat" prefix="bin" />
+			
+			<zipfileset file="${prj.build}/exe/pencil.sh" prefix="bin" />
+			
+			<zipfileset dir="${prj.exampleClient}" prefix="examples/client">
+				<exclude name="bin/**" />
+			</zipfileset>
+			
+			<zipfileset dir="${prj.test}" prefix="test">
+				<include name="src/**" />
+				<include name="build/**" />
+			</zipfileset>
+			
+			<zipfileset file="${prj.testAddon}/test-addon.jar" prefix="test/lib" />
+			
+			<zipfileset file="${prj.lib}/junit.jar" prefix="test/lib" />
+
+			<exclude name="**/classes/**" />
+		</zip>
+	</target>
+
+</project>

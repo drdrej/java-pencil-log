@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="/TPS/build/web/src"/>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/kasm-1.5.2.jar"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/asm.jar"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/asm-analysis-1.5.2.jar"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/asm-attrs-1.5.2.jar"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/asm-tree-1.5.2.jar"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/asm-util-1.5.2.jar"/>
+	<classpathentry kind="lib" path="E:/JLIBS/ASM/asm-1.5.2/lib/asm-xml-1.5.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/testAddon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ant"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/build"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/eclipse-editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/example-client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/runtime"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/test"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

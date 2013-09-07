@@ -1,0 +1,12 @@
+- better format of some error-messages in the console. the number of 
+  the affected line is also present in the error-message.
+  
+- newer antlr version (1.7.5)
+
+- white-spaces are now allowed in reference-blocks. following situations are
+  now possible: ${    myVar   .    myField   }
+
+- new class-function added: use ${class.name} or simple ${class} to output the name of the class in the log-template.
+
+- new class-function added: use ${class.lineNumber} to output the number of line of the actual logging statement.
+

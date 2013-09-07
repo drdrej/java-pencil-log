@@ -1,0 +1,27 @@
+// Decompiled by DJ v3.6.6.79 Copyright 2004 Atanas Neshkov  Date: 14.08.2005 13:12:32
+// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
+// Decompiler options: packimports(3) annotate lnc 
+
+package com.j2biz.info;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+// Referenced classes of package com.j2biz.info:
+//            ErrorStatus
+
+public interface ErrorStatusLogger
+{
+
+    public abstract void log(ErrorStatus errorstatus);
+
+    private static final Log $COM_J2BIZ_LOG = LogFactory.getLog("com/j2biz/info/ErrorStatusLogger"); /* synthetic field */
+
+    /* static  */
+    /* { */
+    //    0    0:ldc1            #12  <String "com/j2biz/info/ErrorStatusLogger">
+    //    1    2:invokestatic    #18  <Method Log LogFactory.getLog(String)>
+    //    2    5:putstatic       #20  <Field Log $COM_J2BIZ_LOG>
+    //*   3    8:return          
+    /* } */
+}

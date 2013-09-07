@@ -1,0 +1,147 @@
+Wichtig:
+==================================================
+> BUG: Logger wird auch in Klassen angelegt, obwohl keine Logstatements vorhanden sind.
+  Z.B: Interfaces.
+  Evtl. deshalb wird eine Exception geworfen.
+       [pencil] Pencil failed. a problem occured: java.lang.ClassFormatError: Illega
+l field modifiers in class com/j2biz/info/ErrorStatusLogger: 0x101A
+   [pencil] java.lang.ClassFormatError: Illegal field modifiers in class com/j2b
+iz/info/ErrorStatusLogger: 0x101A
+   [pencil]     at java.lang.ClassLoader.defineClass1(Native Method)
+   [pencil]     at java.lang.ClassLoader.defineClass(ClassLoader.java:620)
+   [pencil]     at org.apache.tools.ant.loader.AntClassLoader2.defineClassFromDa
+ta(AntClassLoader2.java:77)
+   [pencil]     at org.apache.tools.ant.AntClassLoader.getClassFromStream(AntCla
+  
+! Ausserdem wird das Feld ja als private angelegt, was in den Interfaces auf jeden Fall zu Problememn führt.
+  
+Mögliche Lösung: In den Interfaces nur PUBLIC-Logger anlegen.
+Zwischenfrage: können LOGGER in den Interfaces überhaupt verwendet werden ? eigentlich NEIN!
+  
+> LOGGING mit pencil innerhalb von pencil selbst
+Warum Logging in Pencil mit Pencil?
+- um Pencil selbst zu testen.
+
+Warum eher nicht ???
+
+
+> Fehler werde in Form von Exceptions erst gesammelt.
+Anschliessend (wenn die Klasse zu ende geparst wurde,
+werden die gesammelten Exceptions über eine
+entsprechende Konsole/Problem View ausgegeben.
+Wie die Fehler formatiert werden, bestimmt die View, bzw. die Console.
+Die Exception hat alle benötigten Informationen und eine
+für den Entwickler sinnvolle Ausgabe zu formulieren. [fast fertig]
+
+> Einfachere Unterstützung der konfiguration ? wie geht das am besten ?
+Was ist am aktuellen Vorgang falsch?
+
+> Logging innerhalb von Pencil verwenden. Evtl. auf SimpleLog aufsetzen.
+Aktuelle Version in Pencil logt zu wenig.
+
+> Javolution - neue Version einsetzen.
+
+> Dokumentation "Getting Started with commons-logging and Log4J"
+Was muss man anpassen/konfigurieren, damit Pencil auch mit anderen Loggern funktioniert?
+
+> Builder (erste Version - FULL-Builder ohne Marker)
+
+> LOG.createLogMsg().toString();
+dieser mechanismus soll die wiederverwendbarkeit von templates ermöglichen.
+vor allem für die weitergabe an exceptions interessant.
+
+Ideen:
+==================================================
+- SimpleLog support
+- LogBridge support
+- StringBuffer durch StringBuilder ersetzen
+- Class-Attribute für unterschiedliche Logger-Typen einbauen. @logger log4j
+- LOG4J Support einbauen
+- UNI-Code Support in den ID-Namen. Im Moment werden nur ASCII-Zeichen unterstützt.
+- ARRAY Support. D.h. ein Array sollte ebenfalls behandelt werden. Syntax für ARRAYs überlegen.
+- Loggable support. Wenn eine Klasse loggable ist, dann sollte die toLog() Methode 
+  statt toString benutzt werden.
+- Builder für Eclipse 
+- Builder für Netbeans
+- Problemview für Netbeans
+- Problempreview Eclipse
+- Nature Eclipse
+- formatter: syntax z.b. wie folgt: 
+       ${ %date(YY xx DD) > hdhhshdshjhjds }
+       ${ %myFormater( objectReference ) -> SS DD SS JHJ }
+       
+Next tasks:
+==================================================
+- refactoring: die replacer (ASTParts) müssen wissen, was sie ersetzen um daraus die informationen zu holen (z.B.: lineNumber)
+
+- ScopeCaller entfernen. Klasse nicht benoetigt.
+- den text fuer die license und die hauptseite uebersetzen.
+
+Tests honzufügen:
+===================================================
+- this-call in npe-situation.
+
+Was kommt ins naechste Release
+===================================================
+- Zeilennummer in den Fehlermeldungen aufnehmen.
+- Try/catch für die gesammte Anweisung
+
+Noch mehr Achtung:
+===================================================
+- Auch die Sichtbarkeit in den erweiterne Klassen in ScopesCheck ebenfalls ergänzen. Evtl. fehlt das noch einiges.
+
+Achtung- Noch zu prüfen...
+====================================
+Die Sichtbarkeit von Erweiterten Feldern, die alle in der gleichen Klasse extrahiert werden. 
+Und zwar ist die super Klasse in der Klasse selbst. 
+
+Problemfaelle
+====================================================
+- ueberlegen, wann koennen endlosrekursionen auftauchen ?
+- endlose rekursionen. kann man so etwas mit pencil abfangen ?
+
+printf- Story:
+====================================================
+der Ersatz für die printf() Methode ist durch Pencil noch genialer.
+  Vorteile: 
+     alles passiert zur Compile-Time. (D.h. der String wird nicht zur Laufzeit geparst.)
+     Die Wahl der entsprechender Formater passiert ebenfalls zur Compiletime.
+  
+  Nachteile: keine!!!
+  
+Mögliche Ansätze der Implementierung:
+  - Außer der Log-statements werden zusätzlich sysouts benutzt.
+  - Sysouts sind keine Log-Statements, sondern nur der Inhalt wird ersetzt.
+  - Der Unterschied zum Logger ist, dass keine log-level-abhängige Methoden aufgerufen werden.
+  - und kein Logger initialisiert werden muss.
+  - Allerdings ist der Rest der Arbeit gleich. String parsen. Felder suchen etc.
+  
+Ergibt das einen Vorteil für die eigene EL?!
+
+Documentation Story:
+======================================================
+- Dokumentation für Pencil-CVS schreiben. (Projektdoku)
+    Welche Verzeichnisse und Eclipse Projekte existieren (Beschreibung, Beziehung).
+
+- Log-Framework ist nicht so gut gelöst? Vielleicht kein eigenes? Wie wäre die Integration in Eclipse?
+  Wie erkennt Eclipse Probleme im Code? Sprich wie werden Marken/Probleme an Eclipse weiter gegeben.
+  (Konzept überlegen - das aktuelle ist nicht ausgereift) Diese Idee muss später ausgearbeitet werden.
+
+Enclosing classes - story:
+========================================================
+6. Überlegen, ob man nicht auf Instrumentation umsteigen soll, bzw. 
+   ein zusätzliches Konzept mit Instrumentation anbietet. 
+   (Nachteil: das laden der Klassen sollte dann langsammer werden)
+
+Tests:
+===================================================
+ - Zugriff auf statische Felder aus allen Kontexten. wobei Felder von unterschiedlichem Typ und unterschiedlichen AccessFlags sind. [in arbeit]
+ - Casting in allen scopes auf unterschiedliche Typen mit unterschiedlichen AccessFlags.
+ - Direkter Zugriff auf Felder (statische)
+ - FehlerSituationen Testen.
+     z.B. NullPointerException, das Feld existiert nicht, das Feld ist nicht sichtbar. (Liste der möglichen Felder, die gemeint waren)
+ 
+ BUG: Anzahl der lokalen Variablen, Felder etc, ist beschränkt. Dies bitte berücksichtigen!
+    hier wird einfach nicht in der kompletten Hierarchie nachgeschaut... muss auch die drumherum liegende Klasse berücksichtigen! getMainClass() usw...
+
+ 

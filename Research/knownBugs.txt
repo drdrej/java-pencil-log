@@ -1,0 +1,5 @@
+BUG: try catch block rund um die 
+     Expression wird nicht erzeugt.
+   
+BUG: static fields werden nicht gefunden, 
+     im Bereich der EmbeddedClass

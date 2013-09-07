@@ -1,0 +1,47 @@
+Beispiel: (Servlet)
+
+
+Filter:
+  LogStack stack = getLogStack();
+	request.setAttribute("logStack", stack );
+	...
+	doChain()
+	...
+	// schreiben der Log-Anweisung im Falle eines Fehlers ...
+	stack.commit( LogStack.ERROR ); 
+
+	
+Jede Klasse, die in den LogStack schreibt muss die Methode
+getLogStack() implementieren...
+
+
+LogStack-Anweisungen im Code:
+
+    logStack.debug( "myMessage ${myVar}" );
+		logStack.error( "myMessage" );
+		
+Wird übersetzt in:
+
+    logStack.add(DEBUG, "myMessage ");
+		logStack.add( myVar );
+		logStack.add(ERROR, "myMessage");
+		
+		
+Q: Wann wird der Code in den Logger geschrieben ?
+A: Wenn das commit erfolgt wird ein Thread gestartet, der den Code dann in den Logger schreibt.
+
+Q: Evtl. wird die Lösung nicht in J2EE-Application-Servern funktionieren?
+A: Nachprüfen. Wegen der Threads. Bzw. wie man das besser machen kann ...
+
+Q: Ist die Lösung perfomanter als das einfache schreiben ?
+A: Mann sollte überprüfen ob das initialisieren eines Arrays (StackSize kann vorgegeben werden oder sogar dynamisc bestimmt)
+		und das anschliessende schreiben der Daten in einem Extrathread wirklich performanter ist.
+		Am besten einen einfachen LogStack schreiben (ohne Pencil) und diesen auf Performance testen.
+		Alternativ testen ob das Poolen der Arrays nicht ebenfalls billiger/performanter ist.
+		
+		Das alles kann aber der Benutzer in der Applikation auch selbst implementieren!
+		
+Die Idee?
+Die Idee die dahinter steckt ist, dass man nicht selten den Stack nur dann haben will, wenn der Code
+auch wirklich einen Fehler produziert hat. 
+		

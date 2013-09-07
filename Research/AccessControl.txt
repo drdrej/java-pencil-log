@@ -1,0 +1,26 @@
+Access Control : field access expression.
+===================================================
+- Package und Klassensichtbarkeit:
+  - packages sind immer sichtbar.
+  - eine klasse oder ein interface ist von überall sichtbar
+  - eine klasse oder ein iterface, dass nicht sichtbar ist, ist 
+    nur im package sichtbar.
+  - ein array-type ist sichtbar, nur wenn der typ seiner elemente ist sichtbar.
+    (meine Interpretation: String[] ist nur sichtbar, weil String sichtbar ist ?)
+  - ein memmber (class, interface, field, method) einer reference (class, interface, array) 
+    sichtbar, nur, wenn der typ sichtbar ist.
+  
+  Member:
+  - public -> ueberall sichtbar
+  - member eines interfaces ist immer public
+  
+  - member ist protected ->
+     - der caller befindet sich im gleichen packet wie auch die klasse, die den member enthaelt.
+     - das mitglied ist in der Subklasse im Body ueberall sichtbar.
+     - Q.id ; Q := expressionname, id := name des members.
+       id ist dann nur zugreifbar, wenn Q vom Typ S oder Subtyp von S ist.
+       
+  - member ist privat ->
+     - sichtbar nur im body der toplevel klasse
+     
+  - default access -> nur im packet sichtbar   

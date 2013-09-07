@@ -1,0 +1,5 @@
+<!--  
+  This DTD must be used to create configuration documents in the XML-format. 
+-->
+
+<!ELEMENT pencil-config ( src-classes+ )> 

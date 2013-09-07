@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+<!DOCTYPE pencil-config
+  PUBLIC "-//Andreas Siebert at j2biz.com//DTD pencil configuration 0.2//EN"
+  "file://config.dtd" >
+ -->
+	
+<pencil-config basedir="../test"  output-path="bin" >
+    <src-classes >
+      <source path="bin">
+          <package name="com.j2biz.pencil.test.scenario" />
+      </source> 
+    </src-classes>
+	
+	<!-- update the reference to the additional libraries. -->
+	<classloader>
+			<classpath-entry path="../testAddon/test-addon.jar" type="jar" />
+	</classloader>
+	
+</pencil-config>

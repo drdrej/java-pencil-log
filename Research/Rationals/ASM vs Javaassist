@@ -1,0 +1,13 @@
+Vorteile von ASM:
+=============================
+- Man kann viel genauer arbeiten.
+- Man ist nicht auf die Implementierung der getField() etc angewiesen.
+
+Nachteile von ASM:
+=============================
+- getField() muss selber implementiert werden.
+
+
+NAchteil von Javaassist
+=============================
+- Man kommt nicht anlokale Variablen. (d.h. der Ansatz mit ANTLR ist dann nicht möglich.)

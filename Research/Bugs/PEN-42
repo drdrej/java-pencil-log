@@ -1,0 +1,56 @@
+Wie kann man access$1 umgehen?
+
+Beispiel-Situation: 
+==================================
+Class1
+   field1
+   
+   Class2
+1.)		zugriff auf das fiedl1
+        
+     Class3
+2.)     zugriff auf das field1
+        
+       Class4
+3.)       zugriff auf das field1
+
+
+Code für die Situation 1.
+==================================
+ALOAD_1  				// lade die instance der Klasse Class1
+GETFIELD	field1  	// lade das feld.
+
+
+
+Code für die Situation 2.
+==================================
+// ALOAD_1 ob ein ALOAD noch davor muss?? dass ist unklar. Denn getfield arbeitet ja direkt auf dem
+
+ALOAD_0
+GETFIELD <Field GlobalPublic this$0>
+GETFIELD field1
+
+
+Problem:
+==================================
+- javac1.5 liefert andere ergebnisse beim kompilieren von inner classes als javac1.4 compiler.
+  dabei werden die referenzern in 1.5 über this$x geholt. In 1.4 kommt noch access$x() Methode dazu.
+  Der Unterschied zwischen version 1.5 und 1.4 ist also:
+  - unterschiedliche Art der Verwaltung der Referenz auf die drüber liegende Klasse in der Kapselungshierarchie.
+  - Die Namen der annonymen inner-classes werden unterschiedlich behandelt.
+
+  
+  
+Lösung: 
+===================================
+- erst für die Version 1.5 entwickeln. Wenn dann noch Bedarf für 1.4 besteht, dann noch dazu implementieren.
+  Bei der implementierung aber auf jeden Fall auf Erweiterbarkeit achten. Denn es kann ja vorkommen, dass
+  sich in 6.0 auch wieder was aendert. Oder das 1.4 doch noch übernommen wird.
+  
+  
+ALOAD
+getfield
+getfield
+getfield
+
+Ansatz.

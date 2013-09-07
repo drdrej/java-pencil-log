@@ -1,0 +1,132 @@
+<project default="help" basedir="../">
+	<!--
+      Builds a distribution from the source.
+      
+      This build-file is only for the pencil-developer. It should helps to manage the 
+      building-process of distributions.
+    -->
+	<buildnumber file="build/build.nr" />
+
+	<property file="./build/build.properties" />
+	
+	<property name="pencil.compiletime.jar" value="dist/lib/pencil-compiletime_${build.version}.${build.number}.jar" />
+	<property name="pencil.runtime.jar" value="dist/lib/pencil-runtime_${build.version}.${build.number}.jar" />
+	<property name="user-dist.zip" value="dist/pencil-user-${build.version}.${build.number}.zip" />
+	<property name="user-dist-test.zip" value="dist/pencil-user-test-${build.version}.${build.number}.zip" />
+
+	<path id="_dist-cp">
+		<pathelement location="./classes/" />
+		<pathelement location="./lib/antlr.jar" />
+		<pathelement location="./lib/asm.jar" />
+		<pathelement location="./lib/asm-attrs.jar" />
+		<pathelement location="./lib/commons-io-1.0.jar" />
+		<pathelement location="./lib/commons-logging.jar" />
+		<pathelement path="./lib/commons-cli-1.0.jar" />
+		<pathelement path="./lib/javolution.jar" /> <!-- actual used version is 1.3 ??? -->
+		<pathelement path="./lib/junit.jar" />
+	</path>
+
+	<target name="help">
+		<echo>Targets:</echo>
+		<echo>- dist-developer: ${developer-dist.desc}</echo>
+		<echo>- dist-user: ${user-dist.desc}</echo>
+	</target>
+
+	<target name="distribute" depends="dist-user, dist-user-with-tests" />
+	   
+	
+	<target name="_user-dist">
+		<delete dir="dist" quiet="true" />
+
+		<mkdir dir="dist" />
+		<mkdir dir="dist/bin" />
+		<mkdir dir="dist/lib" />
+		<mkdir dir="dist/classes" />
+		
+		<javac srcdir="src" optimize="false" debug="true" destdir="dist/classes">
+			<classpath refid="_dist-cp" />
+			<exclude name="**/test/**" />
+		</javac>
+
+
+		<jar basedir="dist/classes" destfile="${pencil.runtime.jar}" manifest="build/RUNTIME-MANIFEST.MF">
+			<include name="com/j2biz/log/**/*.class" />
+		</jar>
+
+		<jar basedir="dist/classes" destfile="${pencil.compiletime.jar}" manifest="build/COMPILETIME-MANIFEST.MF">
+			<exclude name="**/test/**" />
+			<exclude name="com/j2biz/log/**/*.class" />
+			<include name="**/*.class" />
+			
+			<zipfileset file="./src/logMsg.properties" />
+			<zipfileset file="./src/userMsg.properties" />
+		</jar>
+		
+		<copy file="bin/pencil.bat" filtering="true" todir="dist/bin" overwrite="true">
+		    <filterset>
+		      <filter token="pencil.compiletime.jar" value="pencil-compiletime_${build.version}.${build.number}.jar"/>
+		    </filterset>
+	    </copy>
+		
+		<copy file="bin/pencil.sh" filtering="true" todir="dist/bin" overwrite="true">
+		    <filterset>
+		      <filter token="pencil.compiletime.jar" value="pencil-compiletime_${build.version}.${build.number}.jar" />
+		    </filterset>
+	    </copy>
+	</target>
+
+	<target name="dist-user" description="${user-dist.desc}" depends="_user-dist">
+		<zip basedir="dist" destfile="${user-dist.zip}" compress="true" update="false">
+			<zipfileset dir="lib" prefix="lib" >
+				<exclude name="**/junit.jar" />	
+			</zipfileset>
+			<exclude name="**/classes/**" />
+		</zip>
+	</target>
+
+	<target name="dist-user-with-tests" depends="_user-dist">
+		<copy file="build/examples-build.xml" tofile="dist/examples/build.xml" filtering="true" overwrite="true">
+		    <filterset>
+		      <filter token="pencil.compiletime.jar" value="pencil-compiletime_${build.version}.${build.number}.jar"/>
+		      <filter token="pencil.runtime.jar" value="pencil-runtime_${build.version}.${build.number}.jar" />
+		    </filterset>
+		</copy>
+		 
+		<zip basedir="dist" destfile="${user-dist-test.zip}" compress="true" update="false">
+			<zipfileset dir="lib" prefix="lib" />
+			<zipfileset dir="xml" prefix="xml" />
+			
+			<exclude name="**/classes/**" />
+			
+			<exclude name="**/pencil-user-*.zip" />
+			
+			<!-- exaples/tests part -->
+			<zipfileset dir="src" prefix="examples/src">
+				<include name="**/test/**" />
+				<include name="commons-logging.properties" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="dist-developer" description="${developer-dist.desc}">
+		<zip basedir="." destfile="${user-dist.zip}" compress="true" update="false">
+			<exclude name="classes" />
+		</zip>
+	</target>
+	
+	<target name="compileJdk1.5"  >
+		<delete dir="dist/classes" verbose="false" quiet="true"/>
+		<mkdir dir="dist/classes" />
+		<javac srcdir="src" compiler="javac1.5" optimize="false" debug="true" destdir="dist/classes" >
+			<classpath refid="_dist-cp" />
+			<!--
+			<compilerarg value="-Xlint:unchecked"/>
+			-->
+		</javac>
+	</target>
+	
+	<target name="testDistribution" description="installs a distribution into a $PENCIL_HOME directory and call tests in this distribution." >
+	   
+	</target>
+
+</project>

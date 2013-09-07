@@ -1,0 +1,9 @@
+- why pencil is good?
+   - sprachunabhängig: alle sprachen der jvm muessten unterstuetzt werden.
+   - jvm-unabhängig: alle jvms sollten unterstützt werden
+   - ide unabhängig.
+   - laesst den source-code so, wie er ist. macht ihn allerdings lesbarer. 
+     (interessant wäre das abschalten an einzelnen stellen im code)
+   - im vergleich zu aspekten: na ja, im prinzip loest es 
+     das problem der cross-cutting concerns nicht. aber macht das logging einfacher. es ist kombinierbar mit aspekten. 
+     

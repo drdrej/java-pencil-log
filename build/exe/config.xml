@@ -1,0 +1,31 @@
+<launch4jConfig>
+  <headerType>1</headerType>
+  <jar>E:\projekte\java\pencil-ws\build\dist\pencil-core.jar</jar>
+  <outfile>E:\projekte\java\pencil-ws\build\exe\pencil.exe</outfile>
+  <errTitle></errTitle>
+  <jarArgs></jarArgs>
+  <chdir>false</chdir>
+  <customProcName>false</customProcName>
+  <stayAlive>false</stayAlive>
+  <icon></icon>
+  <jre>
+    <path></path>
+    <minVersion>1.5.0</minVersion>
+    <maxVersion></maxVersion>
+    <initialHeapSize>0</initialHeapSize>
+    <maxHeapSize>0</maxHeapSize>
+    <args></args>
+  </jre>
+  <versionInfo>
+    <fileVersion>0.0.2.1</fileVersion>
+    <txtFileVersion>0.2.1</txtFileVersion>
+    <fileDescription>Pencil - log message compiler</fileDescription>
+    <copyright>Andreas Siebert</copyright>
+    <productVersion>0.0.0.0</productVersion>
+    <txtProductVersion>0</txtProductVersion>
+    <productName>Pencil</productName>
+    <companyName>j2biz.com</companyName>
+    <internalName>Pencil</internalName>
+    <originalFilename>pencil.exe</originalFilename>
+  </versionInfo>
+</launch4jConfig>

@@ -1,0 +1,6 @@
+in diesem dokument beschreibe ich, wie man
+pencil, als commiter einrichtet und
+auf eigenem rechner zum laufen bringt.
+
+dieses document soll vor allem den entwicklern erklären, wie 
+man mit pencil programmiert.
