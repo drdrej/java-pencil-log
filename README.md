@@ -15,7 +15,7 @@
 		
 To start to use pencil you can **download** this [ZIP](https://github.com/drdrej/java-pencil-log/blob/master/pencil.www/actualRelease/pencilFull.zip?raw=true)
 and follow an [installation-howto](https://github.com/drdrej/java-pencil-log/blob/master/INSTALL.md).
-
+ 
 
 ## History
 I've staretd this project in 2005. After SUN has shut down his hosts (java.net) for open-source projects i've decided not to
