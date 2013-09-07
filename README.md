@@ -12,7 +12,8 @@
 		Version: 0.2.3 / 2005
 		should be compatible with classes for jvm <= 1.5
 		(c)2005 by Andreas Siebert
-		**Download**: --
+		**Download**: [ZIP](https://github.com/drdrej/java-pencil-log/blob/master/pencil.www/actualRelease/pencilFull.zip?raw=true)
+		Follow an [installation-howto](https://github.com/drdrej/java-pencil-log/blob/master/INSTALL.md) before you use it.
 
 
 ## History
