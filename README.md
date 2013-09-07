@@ -258,20 +258,20 @@ Library.
 
 ## References
 
-´´´ Pencil [35] verfolgt den Ansatz, den Loggingcode durch den
-Programmierer nur teilweise in den Sourcecode einfügen zu lassen. Hier platziert
-der Programmierer nur einen String, welcher aussagt, was geloggt werden soll.
-Durch Pencil wird eine Abfrage direkt in den Bytecode eingewebt, welche über-
-prüft, ob der gewünschte Loglevel einer Loggingnachricht überhaupt aktiviert
-ist, sodass das Sammeln von Informationen für Loggingnachrichten, die nicht
-ausgegeben werden, unterbunden werden kann. Dies ist ähnlich zum Ansatz
-von Just4log. In Pencil ist eine Sprache integriert, welche es einem ermöglicht,
-die gewünschten Loggingstatements inklusive der Variablen, welche eingewebt
-werden sollen, zu beschreiben. Unter all den beschriebenen Ansätzen ist Pen-
-cil der komfortabelste, da es Just4Log einschließt und zusätzlich nicht überall
-Loggingcode wie der TracingClassLoader generiert. 
-´´´
-(c) 2008, Christoph Tornau
+		Pencil [35] verfolgt den Ansatz, den Loggingcode durch den
+		Programmierer nur teilweise in den Sourcecode einfügen zu lassen. Hier platziert
+		der Programmierer nur einen String, welcher aussagt, was geloggt werden soll.
+		Durch Pencil wird eine Abfrage direkt in den Bytecode eingewebt, welche über-
+		prüft, ob der gewünschte Loglevel einer Loggingnachricht überhaupt aktiviert
+		ist, sodass das Sammeln von Informationen für Loggingnachrichten, die nicht
+		ausgegeben werden, unterbunden werden kann. Dies ist ähnlich zum Ansatz
+		von Just4log. In Pencil ist eine Sprache integriert, welche es einem ermöglicht,
+		die gewünschten Loggingstatements inklusive der Variablen, welche eingewebt
+		werden sollen, zu beschreiben. Unter all den beschriebenen Ansätzen ist Pen-
+		cil der komfortabelste, da es Just4Log einschließt und zusätzlich nicht überall
+		Loggingcode wie der TracingClassLoader generiert. 
+
+(c) 2008, Christoph Tornau ~
 *"Analyse, Design und Implementierung einer aspektorientierten Erweiterung 
 der Programmiersprache nesC im Besonderen für das Logging in 
 Sensornetzen"*, Kapitel *"Analyse von logging-Frameworks und aspektorientierten 
