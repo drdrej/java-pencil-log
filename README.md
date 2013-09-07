@@ -110,7 +110,15 @@ Spracherweiterungen und deren Implementierungen"*.
 
 ## Say thank you
 This project is open-source and free, so if you use it or simply like it you are welcome to donate.   
+
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D7GL3MAY2KYLG)
+
+
+
+
+*Feel free to use, to fork and to code!*
+      Andreas Siebert 
+	  aka drdrej/nestor_kodila
 
 ## License
 **LGPL v.3 (updated 2013)**
@@ -281,10 +289,3 @@ apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
 
----------------------
-
-
-
-*Feel free to use, to fork and to code!*
-      Andreas Siebert 
-	  aka drdrej/nestor_kodila
