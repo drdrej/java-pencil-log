@@ -86,6 +86,32 @@ from within your logging-expressions.
 The result is, your code is safer than before. No more NullPointerExceptions and no more unintended business logic in 
 the logging expressions. Pencil simply forbids a faulty logging-functionality in your code.
 
+## References
+
+		Pencil [35] verfolgt den Ansatz, den Loggingcode durch den
+		Programmierer nur teilweise in den Sourcecode einfügen zu lassen. Hier platziert
+		der Programmierer nur einen String, welcher aussagt, was geloggt werden soll.
+		Durch Pencil wird eine Abfrage direkt in den Bytecode eingewebt, welche über-
+		prüft, ob der gewünschte Loglevel einer Loggingnachricht überhaupt aktiviert
+		ist, sodass das Sammeln von Informationen für Loggingnachrichten, die nicht
+		ausgegeben werden, unterbunden werden kann. Dies ist ähnlich zum Ansatz
+		von Just4log. In Pencil ist eine Sprache integriert, welche es einem ermöglicht,
+		die gewünschten Loggingstatements inklusive der Variablen, welche eingewebt
+		werden sollen, zu beschreiben. Unter all den beschriebenen Ansätzen ist Pen-
+		cil der komfortabelste, da es Just4Log einschließt und zusätzlich nicht überall
+		Loggingcode wie der TracingClassLoader generiert. 
+
+(c) 2008, Christoph Tornau ~
+*"Analyse, Design und Implementierung einer aspektorientierten Erweiterung 
+der Programmiersprache nesC im Besonderen für das Logging in 
+Sensornetzen"*, Kapitel *"Analyse von logging-Frameworks und aspektorientierten 
+Spracherweiterungen und deren Implementierungen"*.
+
+
+## Say thank you
+This project is open-source and free, so if you use it or simply like it you are welcome to donate.   
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D7GL3MAY2KYLG)
+
 ## License
 **LGPL v.3 (updated 2013)**
 
@@ -255,32 +281,8 @@ apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
 
+---------------------
 
-## References
-
-		Pencil [35] verfolgt den Ansatz, den Loggingcode durch den
-		Programmierer nur teilweise in den Sourcecode einfügen zu lassen. Hier platziert
-		der Programmierer nur einen String, welcher aussagt, was geloggt werden soll.
-		Durch Pencil wird eine Abfrage direkt in den Bytecode eingewebt, welche über-
-		prüft, ob der gewünschte Loglevel einer Loggingnachricht überhaupt aktiviert
-		ist, sodass das Sammeln von Informationen für Loggingnachrichten, die nicht
-		ausgegeben werden, unterbunden werden kann. Dies ist ähnlich zum Ansatz
-		von Just4log. In Pencil ist eine Sprache integriert, welche es einem ermöglicht,
-		die gewünschten Loggingstatements inklusive der Variablen, welche eingewebt
-		werden sollen, zu beschreiben. Unter all den beschriebenen Ansätzen ist Pen-
-		cil der komfortabelste, da es Just4Log einschließt und zusätzlich nicht überall
-		Loggingcode wie der TracingClassLoader generiert. 
-
-(c) 2008, Christoph Tornau ~
-*"Analyse, Design und Implementierung einer aspektorientierten Erweiterung 
-der Programmiersprache nesC im Besonderen für das Logging in 
-Sensornetzen"*, Kapitel *"Analyse von logging-Frameworks und aspektorientierten 
-Spracherweiterungen und deren Implementierungen"*.
-
-
-## Say thank you
-This project is open-source and free, so if you use it or simply like it you are welcome to donate.   
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D7GL3MAY2KYLG)
 
 
 *Feel free to use, to fork and to code!*
