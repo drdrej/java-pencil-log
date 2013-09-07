@@ -258,6 +258,9 @@ Library.
 
 
 
+## Say thank you
+This project is open-source and free, so if you use it or simply like it you are welcome to donate.   
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D7GL3MAY2KYLG)
 
 
 *Feel free to use, to fork and to code!*
